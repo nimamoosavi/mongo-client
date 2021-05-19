@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CostDetailRerpository extends MongoRepository<CostDetail,String> {
-public List<CostDetail> findAllByType(String type);
+public interface CostDetailRerpository extends MongoRepository<CostDetail, String> {
+    public List<CostDetail> findAllByType(String type);
 }

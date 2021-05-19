@@ -12,11 +12,10 @@ import java.util.Map;
 
 @Document
 @Data
-@CompoundIndex
 public class CostDetail {
     @MongoId
     private String id;
     public String type;
 
-    private Map<String,Object> dynamicFields;
+    private Map<String, Object> dynamicFields;
 }

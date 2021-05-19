@@ -2,6 +2,7 @@ package com.nicico.mongoclient.controller;
 
 import com.nicico.mongoclient.entity.Cost;
 import com.nicico.mongoclient.entity.CostDetail;
+import com.nicico.mongoclient.operation.MongoOperation;
 import com.nicico.mongoclient.repository.CostDetailRerpository;
 import com.nicico.mongoclient.repository.CostRepository;
 import com.nicico.mongoclient.service.CostDetailService;
@@ -20,8 +21,11 @@ import java.util.Map;
 public class SampleController {
     private CostDetailRerpository costDetailRrpository;
     private CostRepository costRepository;
+
     @Autowired
     CostDetailService costDetailService;
+    @Autowired
+    MongoOperation mongoOperation;
 
     public SampleController(CostDetailRerpository costDetailRrpository, CostRepository costRepository) {
         this.costDetailRrpository = costDetailRrpository;
@@ -30,12 +34,12 @@ public class SampleController {
 
     @GetMapping("/sample/{type}")
     public String getSample(@PathVariable("type") String type) {
-        costDetailService.createIndex(type);
+//        costDetailService.createIndex(type);
         CostDetail costDetail = new CostDetail();
         costDetail.setType(type);
         Map<String, Object> map = new HashMap<>();
         map.put("tet", "test");
-        map.put("int", 12);
+        map.put("int", 12L);
         map.put("long", 13L);
         costDetail.setDynamicFields(map);
         Cost cost = new Cost();
@@ -46,15 +50,21 @@ public class SampleController {
         costRepository.save(cost);
 
         return "SampleController{" +
-            "costDetailRrpository=" + costDetailRrpository +
-            '}';
+                "costDetailRrpository=" + costDetailRrpository +
+                '}';
     }
+
     @GetMapping("/test/{type}")
     public Object getTest(@PathVariable("type") String type) {
-
-
-
-
         return costDetailRrpository.findAllByType(type);
+    }
+
+    @GetMapping("/index/{collections}/{field}")
+    public String addIndex(@PathVariable("collections") String collections, @PathVariable("field") String field) {
+
+        mongoOperation.createIndex(collections, field);
+        return "SampleController{" +
+                "costDetailRrpository=" + costDetailRrpository +
+                '}';
     }
 }

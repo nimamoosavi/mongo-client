@@ -1,4 +1,4 @@
-package com.nicico.mongoclient.config;
+package com.nicico.mongoclient.mapper;
 
 import org.bson.Document;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
@@ -8,9 +8,9 @@ import org.springframework.data.mongodb.core.mapping.event.BeforeSaveEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class MongoListener<T> extends AbstractMongoEventListener<T> {
+public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> {
     private final  Map<String,String> mapFields;
-    public MongoListener(){
+    public MongoFieldMapper(){
         mapFields=new HashMap<>();
 
     }
@@ -43,7 +43,7 @@ public abstract class MongoListener<T> extends AbstractMongoEventListener<T> {
         return mapFields;
     }
 
-    public String mapField(String newFiledName,String oldFieldName){
-        return mapFields.put(newFiledName,oldFieldName);
+    public void mapField(String  source,String oldFieldName){
+        mapFields.put(source,oldFieldName);
     }
 }
