@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Data
 @Getter
@@ -28,7 +29,7 @@ public class FieldValidation {
     private String pattern;
     @JsonInclude(Include.NON_NULL)
     @JsonProperty(value = "required")
-    private List<String> requiredNestedFields;
+    private Set<String> requiredNestedFields;
     @JsonInclude(Include.NON_NULL)
     @JsonProperty(value = "properties")
     private Map<String, FieldValidation> mapNestedFieldNameAndFieldValidation;
@@ -47,7 +48,7 @@ public class FieldValidation {
         private String pattern;
         private Double minimum;
         private Double maximum;
-        private List<String> requiredNestedFields;
+        private Set<String> requiredNestedFields;
         private Map<String, FieldValidation> mapNestedFieldNameAndFieldValidation;
         private List<String> enums;
 
@@ -81,7 +82,7 @@ public class FieldValidation {
             return this;
         }
 
-        public FieldValidationBuilder required(List<String> requiredNestedFields) {
+        public FieldValidationBuilder required(Set<String> requiredNestedFields) {
             this.requiredNestedFields = requiredNestedFields;
             return this;
         }

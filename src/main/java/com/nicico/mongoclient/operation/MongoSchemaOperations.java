@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.bson.Document;
 
 import java.util.List;
+import java.util.Set;
 
 public interface MongoSchemaOperations {
     public Document saveSchema(Class<?> collectionClass, Document schema);
@@ -14,14 +15,15 @@ public interface MongoSchemaOperations {
 
     public String getCollectionName(Class<?> collectionClass);
 
-    public Document getSchema(Class<?> collectionClass) throws JsonProcessingException;
+    public Document getSchema(Class<?> collectionClass);
 
 
-    public Document getFieldValidation(Class<?> collectionClass, String fieldName) throws JsonProcessingException;
+    public Document getFieldValidation(Class<?> collectionClass, String fieldName) ;
 
-    public Document saveFieldValidation(Class<?> collectionClass, String fieldName, FieldValidation fieldValidation) throws JsonProcessingException;
+    public Document saveFieldValidation(Class<?> collectionClass, String fieldName, FieldValidation fieldValidation) ;
 
-    public List<String> getRequiredField(Class<?> collectionClass, String nestedFieldName);
+    public Set<String> getRequiredField(Class<?> collectionClass, String nestedFieldName);
+    public void setRequiredField(Class<?> collectionClass, String nestedFieldName,Set<String> requiredField);
 
 
 }

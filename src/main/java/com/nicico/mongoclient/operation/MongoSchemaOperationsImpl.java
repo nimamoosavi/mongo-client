@@ -1,14 +1,14 @@
 package com.nicico.mongoclient.operation;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.bson.Document;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Set;
 
 @Component
 public class MongoSchemaOperationsImpl implements MongoSchemaOperations {
@@ -17,10 +17,10 @@ public class MongoSchemaOperationsImpl implements MongoSchemaOperations {
     private MongoDbSchemaService mongoDbSchemaService;
     private ObjectMapper objectMapper;
 
-    public MongoSchemaOperationsImpl(MongoTemplate mongoTemplate, ObjectMapper ValidatorProperty,MongoDbSchemaService mongoDbSchemaService) {
+    public MongoSchemaOperationsImpl(MongoTemplate mongoTemplate, ObjectMapper ValidatorProperty, MongoDbSchemaService mongoDbSchemaService) {
         this.objectMapper = ValidatorProperty;
         this.mongoTemplate = mongoTemplate;
-        this. mongoDbSchemaService=mongoDbSchemaService;
+        this.mongoDbSchemaService = mongoDbSchemaService;
     }
 
     @Override
@@ -37,8 +37,9 @@ public class MongoSchemaOperationsImpl implements MongoSchemaOperations {
     }
 
     @Override
-    public Document saveSchema(Class<?> collectionClass, Document schema) {
-        return mongoDbSchemaService.saveSchema(getCollectionName(collectionClass),schema);
+    public Document
+    saveSchema(Class<?> collectionClass, Document schema) {
+        return mongoDbSchemaService.saveSchema(getCollectionName(collectionClass), schema);
     }
 
     @Override
@@ -64,10 +65,10 @@ public class MongoSchemaOperationsImpl implements MongoSchemaOperations {
     }
 
     @Override
-    public List<String> getRequiredField(Class<?> collectionClass, @Nullable String nestedFieldName) {
+    public Set<String> getRequiredField(Class<?> collectionClass, @Nullable String nestedFieldName) {
         Document schema = getSchema(collectionClass);
         schema = nestedSchema(schema, nestedFieldName);
-        return schema.get(MongoDbSchemaService.REQUIRED, List.class);
+        return schema.get(MongoDbSchemaService.REQUIRED, Set.class);
     }
 
     private Document nestedSchema(Document schema, String nestedFieldName) {
@@ -78,10 +79,17 @@ public class MongoSchemaOperationsImpl implements MongoSchemaOperations {
     }
 
     @Override
-    public Document saveFieldValidation(Class<?> collectionClass, String fieldName, FieldValidation fieldValidation) throws JsonProcessingException {
+    public void setRequiredField(Class<?> collectionClass, String nestedFieldName, Set<String> requiredField) {
         Document schema = getSchema(collectionClass);
-        schema.get(mongoDbSchemaService.MONGO_PROPERTIES, Document.class).put(fieldName, Document.parse(objectMapper.writeValueAsString(fieldValidation)));
+        nestedSchema(schema, nestedFieldName).put(MongoDbSchemaService.REQUIRED, requiredField);
+        saveSchema(collectionClass, schema);
+    }
 
+    @SneakyThrows
+    @Override
+    public Document saveFieldValidation(Class<?> collectionClass, String fieldName, FieldValidation fieldValidation) {
+        Document schema = getSchema(collectionClass);
+        schema.get(MongoDbSchemaService.MONGO_PROPERTIES, Document.class).put(fieldName, Document.parse(objectMapper.writeValueAsString(fieldValidation)));
         return saveSchema(collectionClass, schema);
     }
 }
