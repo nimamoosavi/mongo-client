@@ -19,6 +19,7 @@ public interface MongoSchemaOperations {
 
 
     public Document getFieldValidation(Class<?> collectionClass, String fieldName) ;
+    public Document getFieldValidation(Class<?> collectionClass) ;
 
     public Document saveFieldValidation(Class<?> collectionClass, String fieldName, FieldValidation fieldValidation) ;
 

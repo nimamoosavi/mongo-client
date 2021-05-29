@@ -65,6 +65,11 @@ public class MongoSchemaOperationsImpl implements MongoSchemaOperations {
     }
 
     @Override
+    public Document getFieldValidation(Class<?> collectionClass) {
+        return getFieldValidation(collectionClass,null);
+    }
+
+    @Override
     public Set<String> getRequiredField(Class<?> collectionClass, @Nullable String nestedFieldName) {
         Document schema = getSchema(collectionClass);
         schema = nestedSchema(schema, nestedFieldName);
