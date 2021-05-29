@@ -1,6 +1,6 @@
 package com.nicico.mongoclient.repository;
 
-import com.nicico.cost.crud.domain.entity.BaseEntity;
+import com.nicico.cost.crud.domain.object.BaseObject;
 import com.nicico.cost.crud.repository.GeneralRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 
-public interface MongoRepo <T extends BaseEntity<I>, I extends Serializable> extends GeneralRepository<T,I>, org.springframework.data.mongodb.repository.MongoRepository<T, I> {
+public interface MongoRepo <T extends BaseObject<I>, I extends Serializable> extends GeneralRepository<T,I>, org.springframework.data.mongodb.repository.MongoRepository<T, I> {
 
     @Override
     default T update(I id, T t) {
