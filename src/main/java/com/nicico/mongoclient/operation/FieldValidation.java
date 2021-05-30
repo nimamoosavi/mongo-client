@@ -1,5 +1,6 @@
 package com.nicico.mongoclient.operation;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,25 +15,27 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(Include.NON_NULL)
 public class FieldValidation {
     @JsonProperty(value = "bsonType")
-    @JsonInclude(Include.NON_NULL)
-    private Object type;
 
-    @JsonInclude(Include.NON_NULL)
+    @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+    private List<Type> type;
+
     private Double minimum;
-    @JsonInclude(Include.NON_NULL)
+
     private Double maximum;
-    @JsonInclude(Include.NON_NULL)
+
     private String description;
-    @JsonInclude(Include.NON_NULL)
+
     private String pattern;
-    @JsonInclude(Include.NON_NULL)
+
     @JsonProperty(value = "required")
     private Set<String> requiredNestedFields;
-    @JsonInclude(Include.NON_NULL)
+
     @JsonProperty(value = "properties")
     private Map<String, FieldValidation> mapNestedFieldNameAndFieldValidation;
+
     @JsonProperty(value = "enum")
     private List<String> enums;
 
@@ -93,7 +96,8 @@ public class FieldValidation {
         }
 
         public FieldValidation build() {
-            return new FieldValidation(this.type.get(0), this.minimum, this.maximum, this.description, this.pattern, this.requiredNestedFields, this.mapNestedFieldNameAndFieldValidation, enums);
+//            return new FieldValidation(this.type.get(0), this.minimum, this.maximum, this.description, this.pattern, this.requiredNestedFields, this.mapNestedFieldNameAndFieldValidation, enums);
+            return new FieldValidation(null, this.minimum, this.maximum, this.description, this.pattern, this.requiredNestedFields, this.mapNestedFieldNameAndFieldValidation, enums);
         }
     }
 

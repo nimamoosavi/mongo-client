@@ -1,11 +1,14 @@
 package com.nicico.mongoclient.operation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import io.jsonwebtoken.lang.Assert;
 import lombok.SneakyThrows;
 import org.bson.Document;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
@@ -20,7 +23,8 @@ public class MongoDbSchemaServiceImpl implements MongoDbSchemaService {
 
     MongoDbSchemaServiceImpl(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
-        this.database = mongoTemplate.getDb();
+        CodecRegistry pojoCodecRegistry = org.bson.codecs.configuration.CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), org.bson.codecs.configuration.CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build()));
+        this.database = mongoTemplate.getDb().withCodecRegistry(pojoCodecRegistry);
         objectMapper = new ObjectMapper();
     }
 
