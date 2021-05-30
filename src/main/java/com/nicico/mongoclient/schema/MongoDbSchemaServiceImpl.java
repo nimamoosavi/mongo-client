@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+
 @Component
 public class MongoDbSchemaServiceImpl implements MongoDbSchemaService {
     private static MongoDatabase database;
@@ -40,7 +41,7 @@ public class MongoDbSchemaServiceImpl implements MongoDbSchemaService {
 
     @Override
     public void drop(String collectionName) {
-        this.saveSchema(collectionName,new Document());
+        this.saveSchema(collectionName, new Document());
     }
 
     @SneakyThrows

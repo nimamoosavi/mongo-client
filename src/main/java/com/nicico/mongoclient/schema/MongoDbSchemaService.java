@@ -13,6 +13,8 @@ public interface MongoDbSchemaService {
     public FieldValidation retrieveJsonSchema(String collectionName);
 
     public Document retrieveJsonSchemaDocument(String collectionName);
+
     public Document saveSchema(String collectionName, Document schema);
+
     public void drop(String collectionName);
 }

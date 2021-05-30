@@ -5,25 +5,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public enum Type {
     //BSON SCHEMA Type
     @JsonProperty("objectId")
-    OBJECT_ID ("objectId"),
+    OBJECT_ID("objectId"),
     @JsonProperty("regex")
-    REGULAR_EXPRESSION ("regex"),
+    REGULAR_EXPRESSION("regex"),
     @JsonProperty("double")
-    DOUBLE ("double"),
+    DOUBLE("double"),
     @JsonProperty("binData")
-    BINARY_DATA ("binData"),
+    BINARY_DATA("binData"),
     @JsonProperty("date")
-    DATE ("date"),
+    DATE("date"),
     @JsonProperty("javascript")
-    JAVA_SCRIPT ("javascript"),
+    JAVA_SCRIPT("javascript"),
     @JsonProperty("int")
-    INT_32 ("int"),
+    INT_32("int"),
     @JsonProperty("long")
-    INT_64 ("long"),
+    INT_64("long"),
     @JsonProperty("decimal")
-    DECIMAL_128 ("decimal"),
+    DECIMAL_128("decimal"),
     @JsonProperty("timestamp")
-    TIMESTAMP ("timestamp"),
+    TIMESTAMP("timestamp"),
 
     // JSON SCHEMA TYPES
     @JsonProperty("object")

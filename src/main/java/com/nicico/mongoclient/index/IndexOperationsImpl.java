@@ -44,7 +44,7 @@ public class IndexOperationsImpl implements IndexOperations {
 
     @Override
     public Optional<Index> getIndex(Class<?> collectionClass, String indexName) {
-        return getListIndexInfo(collectionClass).stream().filter(idx->indexName.equals(idx.getName())).map(this::indexInfoToIndex).findFirst();
+        return getListIndexInfo(collectionClass).stream().filter(idx -> indexName.equals(idx.getName())).map(this::indexInfoToIndex).findFirst();
     }
 
     @Override
@@ -57,10 +57,11 @@ public class IndexOperationsImpl implements IndexOperations {
         mongoTemplate.indexOps(collectionClass).dropAllIndexes();
     }
 
-    private List<IndexInfo> getListIndexInfo(Class<?> collectionClass){
+    private List<IndexInfo> getListIndexInfo(Class<?> collectionClass) {
         return mongoTemplate.indexOps(collectionClass).getIndexInfo();
     }
-    private Index indexInfoToIndex(IndexInfo idx){
+
+    private Index indexInfoToIndex(IndexInfo idx) {
         return Index.builder()
                 .name(idx.getName())
                 .key(idx.getIndexFields().isEmpty() ? null : idx.getIndexFields().get(0).getKey())

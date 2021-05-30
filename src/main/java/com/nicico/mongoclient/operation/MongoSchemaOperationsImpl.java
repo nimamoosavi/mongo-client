@@ -33,7 +33,6 @@ public class MongoSchemaOperationsImpl implements MongoSchemaOperations {
     }
 
 
-
     @Override
     public String getCollectionName(Class<?> collectionClass) {
         return mongoTemplate.getCollectionName(collectionClass);

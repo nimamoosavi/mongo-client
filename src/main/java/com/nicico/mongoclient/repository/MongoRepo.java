@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 
-public interface MongoRepo <T extends BaseObject<I>, I extends Serializable> extends GeneralRepository<T,I>, org.springframework.data.mongodb.repository.MongoRepository<T, I> {
+public interface MongoRepo<T extends BaseObject<I>, I extends Serializable> extends GeneralRepository<T, I>, org.springframework.data.mongodb.repository.MongoRepository<T, I> {
 
     @Override
     default T update(I id, T t) {
@@ -25,17 +25,17 @@ public interface MongoRepo <T extends BaseObject<I>, I extends Serializable> ext
 
     @Override
     default List<T> saveAll(List<T> ts) {
-        ts.forEach(t->t.setId(null));
+        ts.forEach(t -> t.setId(null));
         return insert(ts);
     }
 
     @Override
     default List<T> findAll(int page, int pageSize) {
-        return findAll(PageRequest.of(page,pageSize)).getContent();
+        return findAll(PageRequest.of(page, pageSize)).getContent();
     }
 
     @Override
     default List<T> findAll(int page, int pageSize, String orders) {
-        return findAll(PageRequest.of(page,pageSize, Sort.by(orders))).getContent();
+        return findAll(PageRequest.of(page, pageSize, Sort.by(orders))).getContent();
     }
 }

@@ -9,7 +9,6 @@ public interface MongoSchemaOperations {
     public Document saveSchema(Class<?> collectionClass, Document schema);
 
 
-
     public String getCollectionName(Class<?> collectionClass);
 
     public Document getSchema(Class<?> collectionClass);

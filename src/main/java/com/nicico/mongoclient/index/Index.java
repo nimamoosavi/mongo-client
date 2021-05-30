@@ -34,7 +34,7 @@ public class Index implements IndexDefinition {
     @Override
     public Document getIndexKeys() {
         Document document = new Document();
-        fieldSpec.put(key,direction);
+        fieldSpec.put(key, direction);
         for (Map.Entry<String, Sort.Direction> entry : fieldSpec.entrySet()) {
             document.put(entry.getKey(), Sort.Direction.ASC.equals(entry.getValue()) ? 1 : -1);
         }
@@ -127,7 +127,7 @@ public class Index implements IndexDefinition {
         }
 
         public Index build() {
-            return new Index(name, unique, sparse, background, expire, Optional.ofNullable(filter), Optional.ofNullable(collation),key,direction);
+            return new Index(name, unique, sparse, background, expire, Optional.ofNullable(filter), Optional.ofNullable(collation), key, direction);
         }
     }
 
