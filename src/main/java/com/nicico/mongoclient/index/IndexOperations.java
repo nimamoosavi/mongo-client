@@ -1,4 +1,4 @@
-package com.nicico.mongoclient.operation;
+package com.nicico.mongoclient.index;
 
 import java.util.List;
 import java.util.Optional;

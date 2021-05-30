@@ -1,4 +1,4 @@
-package com.nicico.mongoclient.operation;
+package com.nicico.mongoclient.schema;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.MongoClientSettings;
@@ -36,6 +36,11 @@ public class MongoDbSchemaServiceImpl implements MongoDbSchemaService {
         validator.put(MONGO_SCHEMA, schema);
         jsonSchema.put(MONGO_VALIDATOR, validator);
         return mongoTemplate.executeCommand(new Document(jsonSchema));
+    }
+
+    @Override
+    public void drop(String collectionName) {
+        this.saveSchema(collectionName,new Document());
     }
 
     @SneakyThrows

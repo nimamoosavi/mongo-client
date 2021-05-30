@@ -1,4 +1,4 @@
-package com.nicico.mongoclient.operation;
+package com.nicico.mongoclient.index;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;

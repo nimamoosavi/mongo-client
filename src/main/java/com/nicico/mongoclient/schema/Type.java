@@ -1,4 +1,4 @@
-package com.nicico.mongoclient.operation;
+package com.nicico.mongoclient.schema;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

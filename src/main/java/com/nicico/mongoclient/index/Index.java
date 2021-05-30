@@ -1,4 +1,4 @@
-package com.nicico.mongoclient.operation;
+package com.nicico.mongoclient.index;
 
 import lombok.*;
 import org.bson.Document;

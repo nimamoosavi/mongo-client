@@ -1,5 +1,6 @@
 package com.nicico.mongoclient.operation;
 
+import com.nicico.mongoclient.schema.FieldValidation;
 import org.bson.Document;
 
 import java.util.Set;

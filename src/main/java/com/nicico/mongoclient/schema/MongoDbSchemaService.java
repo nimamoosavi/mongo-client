@@ -1,4 +1,4 @@
-package com.nicico.mongoclient.operation;
+package com.nicico.mongoclient.schema;
 
 import org.bson.Document;
 
@@ -14,4 +14,5 @@ public interface MongoDbSchemaService {
 
     public Document retrieveJsonSchemaDocument(String collectionName);
     public Document saveSchema(String collectionName, Document schema);
+    public void drop(String collectionName);
 }
