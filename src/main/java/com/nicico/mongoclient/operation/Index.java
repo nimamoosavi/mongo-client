@@ -28,25 +28,22 @@ public class Index implements IndexDefinition {
     private long expire;
     private Optional<IndexFilter> filter;
     private Optional<Collation> collation;
-
+    private String key;
+    private Sort.Direction direction;
 
     @Override
     public Document getIndexKeys() {
         Document document = new Document();
-
+        fieldSpec.put(key,direction);
         for (Map.Entry<String, Sort.Direction> entry : fieldSpec.entrySet()) {
             document.put(entry.getKey(), Sort.Direction.ASC.equals(entry.getValue()) ? 1 : -1);
         }
-
         return document;
     }
 
     @Override
     public Document getIndexOptions() {
-
         Document document = new Document();
-
-
         if (StringUtils.hasText(name)) {
             document.put("name", name);
         }
@@ -130,7 +127,7 @@ public class Index implements IndexDefinition {
         }
 
         public Index build() {
-            return new Index(name, unique, sparse, background, expire, Optional.ofNullable(filter), Optional.ofNullable(collation));
+            return new Index(name, unique, sparse, background, expire, Optional.ofNullable(filter), Optional.ofNullable(collation),key,direction);
         }
     }
 

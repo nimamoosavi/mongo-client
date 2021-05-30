@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,7 +19,7 @@ public class FieldValidation {
     @JsonProperty(value = "bsonType")
 
     @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-    private List<Type> type;
+    private Set<Type> type;
 
     private Double minimum;
 
@@ -37,7 +36,7 @@ public class FieldValidation {
     private Map<String, FieldValidation> mapNestedFieldNameAndFieldValidation;
 
     @JsonProperty(value = "enum")
-    private List<String> enums;
+    private Set<String> enums;
 
     public static FieldValidationBuilder builder() {
         return new FieldValidationBuilder();
@@ -46,21 +45,21 @@ public class FieldValidation {
     public static class FieldValidationBuilder {
 
 
-        private List<String> type;
+        private Set<Type> type;
         private String description;
         private String pattern;
         private Double minimum;
         private Double maximum;
         private Set<String> requiredNestedFields;
         private Map<String, FieldValidation> mapNestedFieldNameAndFieldValidation;
-        private List<String> enums;
+        private Set<String> enums;
 
-        public FieldValidationBuilder enums(List<String> enums) {
+        public FieldValidationBuilder enums(Set<String> enums) {
             this.enums = enums;
             return this;
         }
 
-        public FieldValidationBuilder type(List<String> type) {
+        public FieldValidationBuilder type(Set<Type> type) {
             this.type = type;
             return this;
         }
@@ -96,8 +95,7 @@ public class FieldValidation {
         }
 
         public FieldValidation build() {
-//            return new FieldValidation(this.type.get(0), this.minimum, this.maximum, this.description, this.pattern, this.requiredNestedFields, this.mapNestedFieldNameAndFieldValidation, enums);
-            return new FieldValidation(null, this.minimum, this.maximum, this.description, this.pattern, this.requiredNestedFields, this.mapNestedFieldNameAndFieldValidation, enums);
+            return new FieldValidation(this.type, this.minimum, this.maximum, this.description, this.pattern, this.requiredNestedFields, this.mapNestedFieldNameAndFieldValidation, enums);
         }
     }
 

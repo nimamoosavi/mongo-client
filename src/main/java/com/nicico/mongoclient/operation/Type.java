@@ -3,7 +3,7 @@ package com.nicico.mongoclient.operation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum Type {
-    //BSON Type
+    //BSON SCHEMA Type
     @JsonProperty("objectId")
     OBJECT_ID ("objectId"),
     @JsonProperty("regex")

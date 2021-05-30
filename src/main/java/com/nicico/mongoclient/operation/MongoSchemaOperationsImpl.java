@@ -17,24 +17,13 @@ public class MongoSchemaOperationsImpl implements MongoSchemaOperations {
     private MongoDbSchemaService mongoDbSchemaService;
     private ObjectMapper objectMapper;
 
+
     public MongoSchemaOperationsImpl(MongoTemplate mongoTemplate, ObjectMapper ValidatorProperty, MongoDbSchemaService mongoDbSchemaService) {
         this.objectMapper = ValidatorProperty;
         this.mongoTemplate = mongoTemplate;
         this.mongoDbSchemaService = mongoDbSchemaService;
     }
 
-    @Override
-    public String createIndex(Class<?> collectionClass, String fieldName) {
-        return mongoTemplate.indexOps(collectionClass).ensureIndex(
-                Index.builder()
-                        .key(fieldName)
-                        .name(collectionClass + "_" + fieldName)
-                        .direction(Sort.Direction.ASC)
-                        .unique(true)
-                        .sparse(false)
-                        .build()
-        );
-    }
 
     @Override
     public Document
@@ -42,10 +31,7 @@ public class MongoSchemaOperationsImpl implements MongoSchemaOperations {
         return mongoDbSchemaService.saveSchema(getCollectionName(collectionClass), schema);
     }
 
-    @Override
-    public String createIndex(Class<?> collectionClass, Index index) {
-        return mongoTemplate.indexOps(collectionClass).ensureIndex(index);
-    }
+
 
     @Override
     public String getCollectionName(Class<?> collectionClass) {
@@ -66,7 +52,7 @@ public class MongoSchemaOperationsImpl implements MongoSchemaOperations {
 
     @Override
     public Document getFieldValidation(Class<?> collectionClass) {
-        return getFieldValidation(collectionClass,null);
+        return getFieldValidation(collectionClass, null);
     }
 
     @Override
