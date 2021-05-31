@@ -42,7 +42,7 @@ public class MongoSchemaOperationsImpl implements MongoSchemaOperations {
 
     @Override
     public Document getSchema(Class<?> collectionClass) {
-        return mongoDbSchemaService.retrieveJsonSchemaDocument(getCollectionName(collectionClass));
+        return mongoDbSchemaService.getJsonSchemaDocument(getCollectionName(collectionClass));
     }
 
     @Override

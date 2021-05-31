@@ -53,12 +53,12 @@ public class MongoDbSchemaServiceImpl implements MongoDbSchemaService {
 
     @SneakyThrows
     @Override
-    public FieldValidation retrieveJsonSchema(String collectionName) {
-        return objectMapper.readValue(retrieveJsonSchemaDocument(collectionName).toJson(), FieldValidation.class);
+    public FieldValidation getJsonSchema(String collectionName) {
+        return objectMapper.readValue(getJsonSchemaDocument(collectionName).toJson(), FieldValidation.class);
     }
 
     @Override
-    public Document retrieveJsonSchemaDocument(String collectionName) {
+    public Document getJsonSchemaDocument(String collectionName) {
         Document collection = retrieveValidatorDocument(collectionName);
         Assert.notNull(collection, "collection not found");
         return readJsonSchema(collection);

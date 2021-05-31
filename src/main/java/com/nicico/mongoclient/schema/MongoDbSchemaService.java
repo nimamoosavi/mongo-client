@@ -20,14 +20,14 @@ public interface MongoDbSchemaService {
      * @param collectionName collection name
      * @return schema pojo
      */
-    public FieldValidation retrieveJsonSchema(String collectionName);
+    public FieldValidation getJsonSchema(String collectionName);
 
     /**
      * get Json Schema as document
      * @param collectionName collection name
      * @return schema document
      */
-    public Document retrieveJsonSchemaDocument(String collectionName);
+    public Document getJsonSchemaDocument(String collectionName);
 
     /**
      * save schema document
