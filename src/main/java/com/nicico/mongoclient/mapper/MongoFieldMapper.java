@@ -8,7 +8,15 @@ import org.springframework.data.mongodb.core.mapping.event.BeforeSaveEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Mongo Field Mapper
+ * abstract class that let you have different field name in mongoDB and pojo
+ * @param <T> is object class of pojo document
+ */
 public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> {
+    /**
+     * key of map represent pojo field name and value represent document field name
+     */
     private final Map<String, String> mapFields;
 
     public MongoFieldMapper() {
@@ -16,6 +24,10 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
 
     }
 
+    /**
+     * call before save document
+     * @param event  before save event
+     */
     @Override
     public void onBeforeSave(BeforeSaveEvent<T> event) {
         Document dbObject = event.getDocument();
@@ -26,9 +38,12 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
                 dbObject.remove(oldFieldName);
             }
         });
-
     }
 
+    /**
+     * call before spring boot mongo template cast document to pojo
+     * @param event after load event
+     */
     @Override
     public void onAfterLoad(AfterLoadEvent<T> event) {
         Document dbObject = event.getSource();
@@ -42,11 +57,20 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
         super.onAfterLoad(event);
     }
 
+    /**
+     * get all mapping fields name of document
+     * @return mapping fields name
+     */
     public Map<String, String> getMapFields() {
         return mapFields;
     }
 
-    public void mapField(String source, String oldFieldName) {
-        mapFields.put(source, oldFieldName);
+    /**
+     * map field
+     * @param pojoFieldName pojo field name
+     * @param documentFieldName document field name
+     */
+    public void mapField(String pojoFieldName, String documentFieldName) {
+        mapFields.put(pojoFieldName, documentFieldName);
     }
 }

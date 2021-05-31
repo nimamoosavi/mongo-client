@@ -1,7 +1,11 @@
 package com.nicico.mongoclient.schema;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Mongo Field Type
+ * All field types mongoDb accept
+ * @author Hossein Mahdevar
+ */
 public enum Type {
     //BSON SCHEMA Type
     @JsonProperty("objectId")

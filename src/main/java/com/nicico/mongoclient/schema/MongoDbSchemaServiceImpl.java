@@ -9,13 +9,15 @@ import lombok.SneakyThrows;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
-import org.bson.conversions.Bson;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Hossein Mahdevar
+ */
 @Component
 public class MongoDbSchemaServiceImpl implements MongoDbSchemaService {
     private static MongoDatabase database;
@@ -38,6 +40,11 @@ public class MongoDbSchemaServiceImpl implements MongoDbSchemaService {
         jsonSchema.put(MONGO_VALIDATOR, validator);
         return mongoTemplate.executeCommand(new Document(jsonSchema));
     }
+    @SneakyThrows
+    @Override
+    public FieldValidation saveSchema(String collectionName, FieldValidation schemaFieldValidation) {
+        return objectMapper.readValue(saveSchema(collectionName,Document.parse(objectMapper.writeValueAsString(schemaFieldValidation))).toJson(), FieldValidation.class);
+    }
 
     @Override
     public void drop(String collectionName) {
@@ -57,15 +64,20 @@ public class MongoDbSchemaServiceImpl implements MongoDbSchemaService {
         return readJsonSchema(collection);
     }
 
+    /**
+     * get collection definition document
+     * @param collectionName collection name
+     * @return collection definition document
+     */
     public Document retrieveValidatorDocument(String collectionName) {
-        return database.listCollections().filter(byName(collectionName)).first();
+        return database.listCollections().filter(Filters.eq("name", collectionName)).first();
     }
 
-    private Bson byName(String collectionName) {
-        return Filters.eq("name", collectionName);
-    }
-
-
+    /**
+     *
+     * @param collection collection definition
+     * @return document in $jsonSchema
+     */
     private static Document readJsonSchema(Document collection) {
         return (collection.containsKey(MONGO_OPTION)
                 && collection.get(MONGO_OPTION, Document.class).containsKey(MONGO_VALIDATOR) &&

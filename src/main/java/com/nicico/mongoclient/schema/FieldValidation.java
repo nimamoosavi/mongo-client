@@ -9,6 +9,11 @@ import lombok.*;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Field Validation
+ * pojo of MongoDB collection.Validator.$jsonSchema
+ * @author Hossein Mahdevar
+ */
 @Data
 @Getter
 @Setter
@@ -17,7 +22,6 @@ import java.util.Set;
 @JsonInclude(Include.NON_NULL)
 public class FieldValidation {
     @JsonProperty(value = "bsonType")
-
     @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
     private Set<Type> type;
 
@@ -29,12 +33,19 @@ public class FieldValidation {
 
     private String pattern;
 
+    /**
+     * set of fields name that document most have
+     */
     @JsonProperty(value = "required")
     private Set<String> requiredNestedFields;
-
+    /**
+     * map key represent nested field name and value of map represent schema that field most have
+     */
     @JsonProperty(value = "properties")
     private Map<String, FieldValidation> mapNestedFieldNameAndFieldValidation;
-
+    /**
+     * set of acceptable value
+     */
     @JsonProperty(value = "enum")
     private Set<String> enums;
 

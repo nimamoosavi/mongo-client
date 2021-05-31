@@ -13,6 +13,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * simple and custom implement of IndexDefinition
+ * @author Hossein Mahdevar
+ * @version 1.0.0
+ */
 @Data
 @Setter
 @Getter

@@ -9,7 +9,9 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+/**
+ * @author Hossein Mahdevar
+ */
 @Component
 public class IndexOperationsImpl implements IndexOperations {
 
@@ -60,6 +62,12 @@ public class IndexOperationsImpl implements IndexOperations {
     private List<IndexInfo> getListIndexInfo(Class<?> collectionClass) {
         return mongoTemplate.indexOps(collectionClass).getIndexInfo();
     }
+
+    /**
+     * map indexInfo object to index object
+     * @param idx Index Info object
+     * @return index object
+     */
 
     private Index indexInfoToIndex(IndexInfo idx) {
         return Index.builder()

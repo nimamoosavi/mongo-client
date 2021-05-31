@@ -4,10 +4,11 @@ import com.nicico.mongoclient.schema.FieldValidation;
 import org.bson.Document;
 
 import java.util.Set;
-
+/**
+ * @author Hossein Mahdevar
+ */
 public interface MongoSchemaOperations {
     public Document saveSchema(Class<?> collectionClass, Document schema);
-
 
     public String getCollectionName(Class<?> collectionClass);
 
