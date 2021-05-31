@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 /**
  * @author Hossein Mahdevar
+ * @version 1.0.0
  */
 @Component
 public class IndexOperationsImpl implements IndexOperations {

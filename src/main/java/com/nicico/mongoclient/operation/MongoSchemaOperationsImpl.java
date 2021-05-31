@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 /**
  * @author Hossein Mahdevar
+ * @version 1.0.0
  */
 @Component
 public class MongoSchemaOperationsImpl implements MongoSchemaOperations {

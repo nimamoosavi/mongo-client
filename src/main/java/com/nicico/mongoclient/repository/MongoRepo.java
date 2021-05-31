@@ -13,6 +13,7 @@ import java.util.List;
  * @param <T> is the entity class that you must Extended to BaseEntity class {@link com.nicico.cost.crud.domain.object.BaseObject}
  * @param <I> is the type of data base Identity class such as Long,String, ...
  * @author Hossein Mahdevar
+ * @version 1.0.0
  */
 public interface MongoRepo<T extends BaseObject<I>, I extends Serializable> extends GeneralRepository<T, I>, org.springframework.data.mongodb.repository.MongoRepository<T, I> {
     /**

@@ -13,6 +13,7 @@ import java.util.Set;
  * Field Validation
  * pojo of MongoDB collection.Validator.$jsonSchema
  * @author Hossein Mahdevar
+ * @version 1.0.0
  */
 @Data
 @Getter

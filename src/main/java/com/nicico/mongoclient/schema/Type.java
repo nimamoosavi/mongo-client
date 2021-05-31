@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Mongo Field Type
  * All field types mongoDb accept
  * @author Hossein Mahdevar
+ * @version 1.0.0
  */
 public enum Type {
     //BSON SCHEMA Type

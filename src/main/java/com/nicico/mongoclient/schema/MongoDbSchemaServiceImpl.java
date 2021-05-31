@@ -17,6 +17,7 @@ import java.util.Map;
 
 /**
  * @author Hossein Mahdevar
+ * @version 1.0.0
  */
 @Component
 public class MongoDbSchemaServiceImpl implements MongoDbSchemaService {

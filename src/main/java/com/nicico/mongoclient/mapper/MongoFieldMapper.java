@@ -12,6 +12,7 @@ import java.util.Map;
  * Mongo Field Mapper
  * abstract class that let you have different field name in mongoDB and pojo
  * @param <T> is object class of pojo document
+ * @version 1.0.0
  */
 public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> {
     /**

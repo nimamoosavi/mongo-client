@@ -6,6 +6,7 @@ import org.bson.Document;
  * MongoDb Schema Service
  * fetch and save mongoDB schema
  * @author Hossien Mahdevar
+ * @version 1.0.0
  */
 public interface MongoDbSchemaService {
     public static final String MONGO_OPTION = "options";

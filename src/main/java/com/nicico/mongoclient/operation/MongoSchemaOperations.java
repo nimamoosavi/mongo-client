@@ -6,6 +6,7 @@ import org.bson.Document;
 import java.util.Set;
 /**
  * @author Hossein Mahdevar
+ * @version 1.0.0
  */
 public interface MongoSchemaOperations {
     public Document saveSchema(Class<?> collectionClass, Document schema);
