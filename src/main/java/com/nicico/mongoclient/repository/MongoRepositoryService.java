@@ -4,9 +4,11 @@ import com.nicico.cost.crud.domain.object.BaseObject;
 import com.nicico.cost.crud.repository.GeneralRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Mongo Repo is integrator of {@link org.springframework.data.mongodb.repository.MongoRepository} and {@link GeneralRepository}
@@ -15,7 +17,13 @@ import java.util.List;
  * @author Hossein Mahdevar
  * @version 1.0.0
  */
-public interface MongoRepo<T extends BaseObject<I>, I extends Serializable> extends GeneralRepository<T, I>, org.springframework.data.mongodb.repository.MongoRepository<T, I> {
+public abstract class MongoRepositoryService<T extends BaseObject<I>, I extends Serializable> implements GeneralRepository<T,I>{
+    private MongoRepository<T,I> repository;
+
+    public MongoRepositoryService(MongoRepository<T, I> repository) {
+        this.repository = repository;
+    }
+
     /**
      *
      * @param id the incrementalId of data base Object
@@ -24,9 +32,9 @@ public interface MongoRepo<T extends BaseObject<I>, I extends Serializable> exte
      * Note: t before save t.id will set id
      */
     @Override
-    default T update(I id, T t) {
+    public T update(I id, T t) {
         t.setId(id);
-        return insert(t);
+        return repository.insert(t);
     }
 
     /**
@@ -37,9 +45,9 @@ public interface MongoRepo<T extends BaseObject<I>, I extends Serializable> exte
      */
 
     @Override
-    default T save(T t) {
+    public T save(T t) {
         t.setId(null);
-        return insert(t);
+        return repository.insert(t);
     }
 
     /**
@@ -49,9 +57,9 @@ public interface MongoRepo<T extends BaseObject<I>, I extends Serializable> exte
      * Note: before t save t.id will set null
      */
     @Override
-    default List<T> saveAll(List<T> ts) {
+    public List<T> saveAll(List<T> ts) {
         ts.forEach(t -> t.setId(null));
-        return insert(ts);
+        return repository.insert(ts);
     }
 
     /**
@@ -62,8 +70,8 @@ public interface MongoRepo<T extends BaseObject<I>, I extends Serializable> exte
      */
 
     @Override
-    default List<T> findAll(int page, int pageSize) {
-        return findAll(PageRequest.of(page, pageSize)).getContent();
+    public List<T> findAll(int page, int pageSize) {
+        return repository.findAll(PageRequest.of(page, pageSize)).getContent();
     }
 
     /**
@@ -75,7 +83,27 @@ public interface MongoRepo<T extends BaseObject<I>, I extends Serializable> exte
      */
 
     @Override
-    default List<T> findAll(int page, int pageSize, String orders) {
-        return findAll(PageRequest.of(page, pageSize, Sort.by(orders))).getContent();
+    public List<T> findAll(int page, int pageSize, String orders) {
+        return repository.findAll(PageRequest.of(page, pageSize, Sort.by(orders))).getContent();
+    }
+
+    @Override
+    public Optional<T> findById(I id) {
+        return repository.findById(id);
+    }
+
+    @Override
+    public List<T> findAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    public long count() {
+        return repository.count();
+    }
+
+    @Override
+    public void deleteById(I id) {
+        repository.deleteById(id);
     }
 }
