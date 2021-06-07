@@ -38,12 +38,12 @@ public class FieldValidation {
      * set of fields name that document most have
      */
     @JsonProperty(value = "required")
-    private Set<String> requiredNestedFields;
+    private Set<String> requiredFields;
     /**
      * map key represent nested field name and value of map represent schema that field most have
      */
     @JsonProperty(value = "properties")
-    private Map<String, FieldValidation> mapNestedFieldNameAndFieldValidation;
+    private Map<String, FieldValidation> properties;
     /**
      * set of acceptable value
      */
@@ -62,8 +62,8 @@ public class FieldValidation {
         private String pattern;
         private Double minimum;
         private Double maximum;
-        private Set<String> requiredNestedFields;
-        private Map<String, FieldValidation> mapNestedFieldNameAndFieldValidation;
+        private Set<String> requiredFields;
+        private Map<String, FieldValidation> properties;
         private Set<String> enums;
 
         public FieldValidationBuilder enums(Set<String> enums) {
@@ -96,18 +96,18 @@ public class FieldValidation {
             return this;
         }
 
-        public FieldValidationBuilder required(Set<String> requiredNestedFields) {
-            this.requiredNestedFields = requiredNestedFields;
+        public FieldValidationBuilder required(Set<String> requiredFields) {
+            this.requiredFields = requiredFields;
             return this;
         }
 
-        public FieldValidationBuilder mapNestedFieldNameAndFieldValidation(Map<String, FieldValidation> mapNestedFieldNameAndFieldValidation) {
-            this.mapNestedFieldNameAndFieldValidation = mapNestedFieldNameAndFieldValidation;
+        public FieldValidationBuilder properties(Map<String, FieldValidation> properties) {
+            this.properties = properties;
             return this;
         }
 
         public FieldValidation build() {
-            return new FieldValidation(this.type, this.minimum, this.maximum, this.description, this.pattern, this.requiredNestedFields, this.mapNestedFieldNameAndFieldValidation, enums);
+            return new FieldValidation(this.type, this.minimum, this.maximum, this.description, this.pattern, this.requiredFields, this.properties, enums);
         }
     }
 
