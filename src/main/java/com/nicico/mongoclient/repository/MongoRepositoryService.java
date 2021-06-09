@@ -6,4 +6,5 @@ import com.nicico.cost.crud.repository.GeneralRepository;
 import java.io.Serializable;
 
 public interface MongoRepositoryService<T extends BaseObject<I>, I extends Serializable> extends GeneralRepository<T,I> {
+     public void change(I id,T t);
 }

@@ -1,12 +1,19 @@
 package com.nicico.mongoclient.repository;
 
+import com.mongodb.client.model.Filters;
 import com.nicico.cost.crud.domain.object.BaseObject;
 import com.nicico.cost.crud.repository.GeneralRepository;
+import org.bson.Document;
+import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import javax.annotation.PostConstruct;
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,15 +24,22 @@ import java.util.Optional;
  * @author Hossein Mahdevar
  * @version 1.0.0
  */
+
 public abstract class MongoRepositoryServiceImpl<T extends BaseObject<I>, I extends Serializable> implements MongoRepositoryService<T,I>{
+    @Autowired
     private MongoRepository<T,I> repository;
+    @Autowired
+    private MongoTemplate mongoTemplate;
+    private Class<T> entityClass;
 
-    public MongoRepositoryServiceImpl(MongoRepository<T, I> repository) {
-        this.repository = repository;
+    @PostConstruct
+    public void init(){
+
+        ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
+        this.entityClass = (Class<T>) type.getActualTypeArguments()[0];
     }
-
     /**
-     *
+     * this method replace current document on old document
      * @param id the incrementalId of data base Object
      * @param t  the Entity View Model that you must Add To Data Base
      * @return t object with filled id
@@ -34,7 +48,19 @@ public abstract class MongoRepositoryServiceImpl<T extends BaseObject<I>, I exte
     @Override
     public T update(I id, T t) {
         t.setId(id);
-        return repository.insert(t);
+        return repository.save(t);
+    }
+
+    /**
+     * this method update not null field of document
+     * @param id
+     * @param t
+     */
+    @Override
+    public void change(I id, T t) {
+        Document doc = new Document();
+        mongoTemplate.getConverter().write(t,doc);
+        mongoTemplate.getCollection(mongoTemplate.getCollectionName(entityClass)).updateOne(Filters.eq("_id",new ObjectId(id.toString())),new Document("$set",doc));
     }
 
     /**
