@@ -25,7 +25,7 @@ import java.util.Optional;
  * @version 1.0.0
  */
 
-public abstract class MongoRepositoryServiceImpl<T , I extends Serializable> implements MongoRepositoryService<T,I>{
+public abstract class MongoRepositoryServiceImpl<T , I extends ObjectId> implements MongoRepositoryService<T,I>{
     @Autowired
     private MongoRepository<T,I> repository;
     @Autowired
