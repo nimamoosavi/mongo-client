@@ -1,13 +1,10 @@
 package com.nicico.mongoclient.mapper;
 
-import io.jsonwebtoken.lang.Strings;
 import org.bson.Document;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
 import org.springframework.data.mongodb.core.mapping.event.AfterLoadEvent;
 import org.springframework.data.mongodb.core.mapping.event.BeforeSaveEvent;
 
-import javax.print.Doc;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,17 +20,14 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
      * key of map represent pojo field name and value represent document field name
      */
     private static final String VARIABLE_READ = "$";
-    private static final String NESTED_READ = "#";
-    private static final String MONGO_FIELD_PATH_SEPARATOR = "/";
+    private static final String STATIC_READ = "#";
     public static final String MONGO_FIELD_NAME_SEPARATOR = "\\.";
     private final Map<String, String> mapDynamicFieldNames;
-    private final Map<String[], String[]> moveNestedField;
-    private final Map<String, String> staticFieldNames;
+    private final Map<String[], String[]> moveFields;
 
     public MongoFieldMapper() {
         mapDynamicFieldNames = new HashMap<>();
-        moveNestedField = new HashMap<>();
-        staticFieldNames = new HashMap<>();
+        moveFields = new HashMap<>();
     }
 
     /**
@@ -44,9 +38,8 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
     @Override
     public void onBeforeSave(BeforeSaveEvent<T> event) {
         Document dbObject = event.getDocument();
-        moveNestedFieldChangeBefore(dbObject);
+        moveFieldsChangeBefore(dbObject);
         dynamicChangeBefore(dbObject);
-        staticChangeBefore(dbObject);
 
     }
 
@@ -60,18 +53,9 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
         });
     }
 
-    private void staticChangeBefore(Document dbObject) {
-        staticFieldNames.forEach((oldFieldName, newFieldName) -> {
-            String fieldName = newFieldName;
-            dbObject.put(fieldName, dbObject.get(oldFieldName));
-            if (fieldName != null) {
-                dbObject.remove(oldFieldName);
-            }
-        });
-    }
 
-    private void moveNestedFieldChangeBefore(Document dbObject) {
-        moveNestedField.forEach((fieldPath, movePath) -> {
+    private void moveFieldsChangeBefore(Document dbObject) {
+        moveFields.forEach((fieldPath, movePath) -> {
             Object field = cutNestedField(dbObject, fieldPath, 0);
             setField(dbObject, movePath, field, 0);
         });
@@ -107,8 +91,7 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
     public void onAfterLoad(AfterLoadEvent<T> event) {
         Document dbObject = event.getSource();
         dynamicChangeAfter(dbObject);
-        staticChangeAfter(dbObject);
-        moveNestedFieldChangeAfter(dbObject);
+        moveFieldsChangeAfter(dbObject);
         super.onAfterLoad(event);
     }
 
@@ -122,17 +105,8 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
         });
     }
 
-    private void staticChangeAfter(Document dbObject) {
-        staticFieldNames.forEach((oldFieldName, newFieldName) -> {
-            Object fieldName = newFieldName;
-            dbObject.put(oldFieldName, dbObject.get(fieldName));
-            if (fieldName != null) {
-                dbObject.remove(fieldName.toString());
-            }
-        });
-    }
-    private void moveNestedFieldChangeAfter(Document dbObject){
-        moveNestedField.forEach((fieldPath, movePath) -> {
+    private void moveFieldsChangeAfter(Document dbObject){
+        moveFields.forEach((fieldPath, movePath) -> {
             Object field = cutNestedField(dbObject, movePath, 0);
             setField(dbObject, fieldPath, field, 0);
         });
@@ -148,10 +122,8 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
     public void mapField(String pojoFieldName, String documentFieldName) {
         if (documentFieldName.startsWith(VARIABLE_READ))
             mapDynamicFieldNames.put(pojoFieldName, documentFieldName.replace(VARIABLE_READ, ""));
-        else if (documentFieldName.startsWith(NESTED_READ))
-            moveNestedField.put(pojoFieldName.split(MONGO_FIELD_NAME_SEPARATOR), documentFieldName.replace(NESTED_READ, "").split(MONGO_FIELD_NAME_SEPARATOR));
-        else
-            staticFieldNames.put(pojoFieldName, documentFieldName);
+        else if (documentFieldName.startsWith(STATIC_READ))
+            moveFields.put(pojoFieldName.split(MONGO_FIELD_NAME_SEPARATOR), documentFieldName.replace(STATIC_READ, "").split(MONGO_FIELD_NAME_SEPARATOR));
     }
 
     /**
@@ -168,16 +140,9 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
      *
      * @return move fields name
      */
-    public Map<String[], String[]> getMoveNestedField() {
-        return this.moveNestedField;
+    public Map<String[], String[]> getMoveField() {
+        return this.moveFields;
     }
 
-    /**
-     * get all mapping static fields name of document
-     *
-     * @return mapping static fields name
-     */
-    public Map<String, String> getStaticFieldNames() {
-        return this.staticFieldNames;
-    }
+
 }
