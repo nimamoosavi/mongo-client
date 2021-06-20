@@ -105,13 +105,12 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
         });
     }
 
-    private void moveFieldsChangeAfter(Document dbObject){
+    private void moveFieldsChangeAfter(Document dbObject) {
         moveFields.forEach((fieldPath, movePath) -> {
             Object field = cutNestedField(dbObject, movePath, 0);
             setField(dbObject, fieldPath, field, 0);
         });
     }
-
 
     /**
      * map field
@@ -119,11 +118,14 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
      * @param pojoFieldName     pojo field name
      * @param documentFieldName document field name
      */
-    public void mapField(String pojoFieldName, String documentFieldName) {
-        if (documentFieldName.startsWith(VARIABLE_READ))
-            mapDynamicFieldNames.put(pojoFieldName, documentFieldName.replace(VARIABLE_READ, ""));
-        else if (documentFieldName.startsWith(STATIC_READ))
-            moveFields.put(pojoFieldName.split(MONGO_FIELD_NAME_SEPARATOR), documentFieldName.replace(STATIC_READ, "").split(MONGO_FIELD_NAME_SEPARATOR));
+    public void mapFieldName(String pojoFieldName, String documentFieldName) {
+
+        mapDynamicFieldNames.put(pojoFieldName, documentFieldName);
+    }
+
+    public void moveField(String pojoFieldName, String documentFieldName) {
+
+        moveFields.put(pojoFieldName.split(MONGO_FIELD_NAME_SEPARATOR), documentFieldName.split(MONGO_FIELD_NAME_SEPARATOR));
     }
 
     /**
