@@ -24,7 +24,7 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
     public static final String MONGO_FIELD_NAME_SEPARATOR = "\\.";
     private final Map<String, String> mapDynamicFieldNames;
     private final Map<String[], String[]> moveFields;
-    private final Map<String[], ValueGenerator> variableGeneratorFields;
+    private final Map<String[], ValueGenerator<T>> variableGeneratorFields;
 
     public MongoFieldMapper() {
         mapDynamicFieldNames = new HashMap<>();
