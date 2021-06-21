@@ -19,16 +19,17 @@ public class SequenceGeneratorService {
     public SequenceGeneratorService(MongoOperations mongoOperations) {
         this.mongoOperations = mongoOperations;
     }
+
     @PostConstruct
-    private void createSequenceCollection(){
+    private void createSequenceCollection() {
         if (!mongoOperations.collectionExists("database_sequences"))
-        mongoOperations.createCollection("database_sequences");
+            mongoOperations.createCollection("database_sequences");
     }
 
     public long generateSequence(String seqName) {
 
         DatabaseSequence counter = mongoOperations.findAndModify(Query.query(Criteria.where("_id").is(seqName)),
-                new Update().inc("seq",1), FindAndModifyOptions.options().returnNew(true).upsert(true),
+                new Update().inc("seq", 1), FindAndModifyOptions.options().returnNew(true).upsert(true),
                 DatabaseSequence.class);
         return !Objects.isNull(counter) ? counter.getSeq() : 1;
 

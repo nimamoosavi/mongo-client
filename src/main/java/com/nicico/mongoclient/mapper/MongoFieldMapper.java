@@ -19,18 +19,11 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
     /**
      * key of map represent pojo field name and value represent document field name
      */
-    private static final String VARIABLE_READ = "$";
-    private static final String STATIC_READ = "#";
-    public static final String MONGO_FIELD_NAME_SEPARATOR = "\\.";
-    private final Map<String, String> mapDynamicFieldNames;
-    private final Map<String[], String[]> moveFields;
-    private final Map<String[], ValueGenerator<T>> variableGeneratorFields;
 
-    public MongoFieldMapper() {
-        mapDynamicFieldNames = new HashMap<>();
-        moveFields = new HashMap<>();
-        variableGeneratorFields = new HashMap<>();
-    }
+    public static final String MONGO_FIELD_NAME_SEPARATOR = "\\.";
+    private final Map<String, String> mapDynamicFieldNames= new HashMap<>();
+    private final Map<String[], String[]> moveFields= new HashMap<>();
+    private final Map<String[], ValueGenerator<T>> variableGeneratorFields= new HashMap<>();
 
     /**
      * call before save document
