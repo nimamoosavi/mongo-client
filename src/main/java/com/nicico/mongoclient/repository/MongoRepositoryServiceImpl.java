@@ -3,10 +3,13 @@ package com.nicico.mongoclient.repository;
 import com.mongodb.client.model.Filters;
 
 import com.nicico.cost.crud.repository.GeneralRepository;
+import com.nicico.cost.framework.packages.crud.view.Criteria;
+import com.nicico.cost.framework.packages.crud.view.Keyword;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -14,8 +17,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Mongo Repo is integrator of {@link org.springframework.data.mongodb.repository.MongoRepository} and {@link GeneralRepository}
@@ -106,8 +111,8 @@ public abstract class MongoRepositoryServiceImpl<T , I extends ObjectId> impleme
      */
 
     @Override
-    public List<T> findAll(int page, int pageSize, String orders) {
-        return repository.findAll(PageRequest.of(page, pageSize, Sort.by(orders))).getContent();
+    public List<T> findAll(int page, int pageSize, List<com.nicico.cost.framework.packages.crud.view.Sort> orders) {
+        return repository.findAll(PageRequest.of(page, pageSize, Sort.by(orders.stream().map(order-> order.getKeyword().equals(Keyword.ASC)?Sort.Order.asc(order.getField()): Sort.Order.desc(order.getField())).collect(Collectors.toList())))).getContent();
     }
 
     @Override
@@ -129,4 +134,26 @@ public abstract class MongoRepositoryServiceImpl<T , I extends ObjectId> impleme
     public void deleteById(I id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public List<T> findAll(Criteria criteria) {
+        return null;
+    }
+
+    @Override
+    public List<T> findAll(int page, int pageSize, Criteria criteria) {
+        return null;
+    }
+
+
+    @Override
+    public List<T> findAll(int page, int pageSize, List<com.nicico.cost.framework.packages.crud.view.Sort> orders, Criteria criteria) {
+        return null;
+    }
+
+    @Override
+    public long count(Criteria criteria) {
+        return 0;
+    }
+
 }
