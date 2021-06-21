@@ -14,7 +14,7 @@ import java.util.Objects;
 public class SequenceGeneratorService {
 
 
-    private MongoOperations mongoOperations;
+    private final MongoOperations mongoOperations;
 
     public SequenceGeneratorService(MongoOperations mongoOperations) {
         this.mongoOperations = mongoOperations;
