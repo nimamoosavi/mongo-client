@@ -143,11 +143,6 @@ public abstract class MongoRepositoryServiceImpl<T, I extends ObjectId> implemen
 
 
     @Override
-    public List<T> findAll(int page, int pageSize, List<com.nicico.cost.framework.packages.crud.view.Sort> orders, Criteria criteria) {
-        return new ArrayList<>();
-    }
-
-    @Override
     public long count(Criteria criteria) {
         return 0;
     }
