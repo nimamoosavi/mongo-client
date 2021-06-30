@@ -2,11 +2,13 @@ package com.nicico.mongoclient.repository;
 
 import com.mongodb.client.model.Filters;
 import com.nicico.cost.crud.repository.GeneralRepository;
+import com.nicico.cost.framework.domain.dto.PageDTO;
 import com.nicico.cost.framework.packages.crud.view.Criteria;
 import com.nicico.cost.framework.packages.crud.view.Keyword;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -95,8 +97,8 @@ public abstract class MongoRepositoryServiceImpl<T, I extends ObjectId> implemen
      */
 
     @Override
-    public List<T> findAll(int page, int pageSize) {
-        return repository.findAll(PageRequest.of(page, pageSize)).getContent();
+    public PageDTO<List<T>> findAll(int page, int pageSize) {
+        return castSpringPageToFrameworkPageDTO(repository.findAll(PageRequest.of(page, pageSize)));
     }
 
     /**
@@ -107,8 +109,8 @@ public abstract class MongoRepositoryServiceImpl<T, I extends ObjectId> implemen
      */
 
     @Override
-    public List<T> findAll(int page, int pageSize, List<com.nicico.cost.framework.packages.crud.view.Sort> orders) {
-        return repository.findAll(PageRequest.of(page, pageSize, Sort.by(orders.stream().map(order -> order.getKeyword().equals(Keyword.ASC) ? Sort.Order.asc(order.getField()) : Sort.Order.desc(order.getField())).collect(Collectors.toList())))).getContent();
+    public PageDTO<List<T>> findAll(int page, int pageSize, List<com.nicico.cost.framework.packages.crud.view.Sort> orders) {
+        return castSpringPageToFrameworkPageDTO(repository.findAll(PageRequest.of(page, pageSize, Sort.by(orders.stream().map(order -> order.getKeyword().equals(Keyword.ASC) ? Sort.Order.asc(order.getField()) : Sort.Order.desc(order.getField())).collect(Collectors.toList())))));
     }
 
     @Override
@@ -137,14 +139,22 @@ public abstract class MongoRepositoryServiceImpl<T, I extends ObjectId> implemen
     }
 
     @Override
-    public List<T> findAll(int page, int pageSize, Criteria criteria) {
-        return new ArrayList<>();
+    public PageDTO<List<T>> findAll(int page, int pageSize, Criteria criteria) {
+        return null;
     }
 
 
     @Override
     public long count(Criteria criteria) {
         return 0;
+    }
+    private PageDTO<List<T>> castSpringPageToFrameworkPageDTO(Page<T> page){
+        return PageDTO.<List<T>>builder()
+                .pageSize(page.getSize())
+                .object(page.getContent())
+                .totalElement(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .build();
     }
 
 }
