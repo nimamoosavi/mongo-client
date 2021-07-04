@@ -1,10 +1,18 @@
 package com.nicico.mongoclient.mapper;
 
+import com.nicico.mongoclient.annotaion.FieldName;
+import com.nicico.mongoclient.annotaion.MoveField;
+import com.nicico.mongoclient.annotaion.Sequence;
+import com.nicico.mongoclient.sequence.SequenceGeneratorService;
 import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
 import org.springframework.data.mongodb.core.mapping.event.AfterLoadEvent;
 import org.springframework.data.mongodb.core.mapping.event.BeforeSaveEvent;
 
+import javax.annotation.PostConstruct;
+import java.lang.reflect.ParameterizedType;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,11 +27,52 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
     /**
      * key of map represent pojo field name and value represent document field name
      */
+    @Autowired
+    SequenceGeneratorService sequenceGeneratorService;
 
     public static final String MONGO_FIELD_NAME_SEPARATOR = "\\.";
-    private final Map<String, String> mapDynamicFieldNames= new HashMap<>();
-    private final Map<String[], String[]> moveFields= new HashMap<>();
-    private final Map<String[], ValueGenerator<T>> variableGeneratorFields= new HashMap<>();
+    private final Map<String, String> mapDynamicFieldNames = new HashMap<>();
+    private final Map<String[], String[]> moveFields = new HashMap<>();
+    private final Map<String[], ValueGenerator<T>> variableGeneratorFields = new HashMap<>();
+    private T t;
+    private T cast;
+
+    @PostConstruct
+    private void init() {
+        ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
+        Class<T> entityClass = (Class<T>) type.getActualTypeArguments()[0];
+        Arrays.stream(entityClass.getDeclaredFields()).forEach(field -> {
+            //FieldName
+            FieldName fieldName = field.getAnnotation(FieldName.class);
+            if (fieldName != null) {
+                mapDynamicFieldNames.put(field.getName(), fieldName.name());
+            }
+            //MoveField
+            MoveField moveField = field.getAnnotation(MoveField.class);
+            if (moveField != null) {
+                if (moveField.target().length != moveField.source().length)
+                    throw new RuntimeException("sadasdasd");
+                for (int index = 0; index < moveField.source().length; index++)
+                    moveFields.put(moveField.source()[index].split(MONGO_FIELD_NAME_SEPARATOR), moveField.target()[index].split(MONGO_FIELD_NAME_SEPARATOR));
+            }
+            //sequence
+            Sequence sequence = field.getAnnotation(Sequence.class);
+            if (sequence != null) {
+                variableGeneratorFields.put(field.getName().split(MONGO_FIELD_NAME_SEPARATOR), (t, doc) -> {
+
+                    try {
+                        field.set(t,sequenceGeneratorService.generateSequence(sequence.name()));
+                        return field.getLong(t);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+//                    doc.put(field.getName(), sequenceGeneratorService.generateSequence(sequence.name()));
+                });
+            }
+        });
+    }
+
 
     /**
      * call before save document
@@ -33,14 +82,15 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
     @Override
     public void onBeforeSave(BeforeSaveEvent<T> event) {
         Document dbObject = event.getDocument();
-        variableValueSetBefore(dbObject,event.getSource());
+        variableValueSetBefore(dbObject, event.getSource());
         moveFieldsChangeBefore(dbObject);
         dynamicChangeBefore(dbObject);
 
     }
-    private void variableValueSetBefore(Document dbObject,T t) {
-        variableGeneratorFields.forEach((fieldName, generator)->
-            setField(dbObject,fieldName,generator.getValue(t,dbObject),0)
+
+    private void variableValueSetBefore(Document dbObject, T t) {
+        variableGeneratorFields.forEach((fieldName, generator) ->
+                setField(dbObject, fieldName, generator.getValue(t, dbObject), 0)
         );
     }
 
@@ -128,8 +178,9 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
 
         moveFields.put(pojoFieldName.split(MONGO_FIELD_NAME_SEPARATOR), documentFieldName.split(MONGO_FIELD_NAME_SEPARATOR));
     }
-    public void setValueField(String pojoFieldName,ValueGenerator<T> generator){
-        this.variableGeneratorFields.put(pojoFieldName.split(MONGO_FIELD_NAME_SEPARATOR),generator);
+
+    public void setValueField(String pojoFieldName, ValueGenerator<T> generator) {
+        this.variableGeneratorFields.put(pojoFieldName.split(MONGO_FIELD_NAME_SEPARATOR), generator);
     }
 
     /**
