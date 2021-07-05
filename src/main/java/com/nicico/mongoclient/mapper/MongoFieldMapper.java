@@ -34,8 +34,6 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
     private final Map<String, String> mapDynamicFieldNames = new HashMap<>();
     private final Map<String[], String[]> moveFields = new HashMap<>();
     private final Map<String[], ValueGenerator<T>> variableGeneratorFields = new HashMap<>();
-    private T t;
-    private T cast;
 
     @PostConstruct
     private void init() {
@@ -61,13 +59,13 @@ public abstract class MongoFieldMapper<T> extends AbstractMongoEventListener<T> 
                 variableGeneratorFields.put(field.getName().split(MONGO_FIELD_NAME_SEPARATOR), (t, doc) -> {
 
                     try {
-                        field.set(t,sequenceGeneratorService.generateSequence(sequence.name()));
-                        return field.getLong(t);
+                        Long sequnce =sequenceGeneratorService.generateSequence(sequence.name());
+                        field.set(entityClass.cast(t),sequnce);
+                        return sequnce;
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
                     return null;
-//                    doc.put(field.getName(), sequenceGeneratorService.generateSequence(sequence.name()));
                 });
             }
         });
