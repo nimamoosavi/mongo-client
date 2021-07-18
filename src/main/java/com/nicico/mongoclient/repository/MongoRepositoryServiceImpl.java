@@ -5,6 +5,7 @@ import com.nicico.cost.crud.repository.GeneralRepository;
 import com.nicico.cost.framework.domain.dto.PageDTO;
 import com.nicico.cost.framework.packages.crud.view.Criteria;
 import com.nicico.cost.framework.packages.crud.view.Keyword;
+import com.nicico.cost.framework.packages.crud.view.Query;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,13 +105,13 @@ public abstract class MongoRepositoryServiceImpl<T, I extends ObjectId> implemen
     /**
      * @param page     the page number that you must fetch it
      * @param pageSize the page Size of that you need to split Data
-     * @param orders   is the list of fields and your direction such as Asc and Desc for Sorting
+     * @param query   is the list of fields and your direction such as Asc and Desc for Sorting
      * @return List of T
      */
 
     @Override
-    public PageDTO<List<T>> findAll(int page, int pageSize, List<com.nicico.cost.framework.packages.crud.view.Sort> orders) {
-        return castSpringPageToFrameworkPageDTO(repository.findAll(PageRequest.of(page, pageSize, Sort.by(orders.stream().map(order -> order.getKeyword().equals(Keyword.ASC) ? Sort.Order.asc(order.getField()) : Sort.Order.desc(order.getField())).collect(Collectors.toList())))));
+    public PageDTO<List<T>> findAll(int page, int pageSize, Query query) {
+        return null;
     }
 
     @Override
@@ -134,18 +135,14 @@ public abstract class MongoRepositoryServiceImpl<T, I extends ObjectId> implemen
     }
 
     @Override
-    public List<T> findAll(Criteria criteria) {
+    public List<T> findAll(Query query) {
         return new ArrayList<>();
     }
 
-    @Override
-    public PageDTO<List<T>> findAll(int page, int pageSize, Criteria criteria) {
-        return null;
-    }
 
 
     @Override
-    public long count(Criteria criteria) {
+    public long count(Query query) {
         return 0;
     }
     private PageDTO<List<T>> castSpringPageToFrameworkPageDTO(Page<T> page){
