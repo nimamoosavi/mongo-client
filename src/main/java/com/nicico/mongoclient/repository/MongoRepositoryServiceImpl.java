@@ -3,15 +3,12 @@ package com.nicico.mongoclient.repository;
 import com.mongodb.client.model.Filters;
 import com.nicico.cost.crud.repository.GeneralRepository;
 import com.nicico.cost.framework.domain.dto.PageDTO;
-import com.nicico.cost.framework.packages.crud.view.Criteria;
-import com.nicico.cost.framework.packages.crud.view.Keyword;
 import com.nicico.cost.framework.packages.crud.view.Query;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -20,7 +17,6 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Mongo Repo is integrator of {@link org.springframework.data.mongodb.repository.MongoRepository} and {@link GeneralRepository}
@@ -105,7 +101,7 @@ public abstract class MongoRepositoryServiceImpl<T, I extends ObjectId> implemen
     /**
      * @param page     the page number that you must fetch it
      * @param pageSize the page Size of that you need to split Data
-     * @param query   is the list of fields and your direction such as Asc and Desc for Sorting
+     * @param query    is the list of fields and your direction such as Asc and Desc for Sorting
      * @return List of T
      */
 
@@ -140,12 +136,12 @@ public abstract class MongoRepositoryServiceImpl<T, I extends ObjectId> implemen
     }
 
 
-
     @Override
     public long count(Query query) {
         return 0;
     }
-    private PageDTO<List<T>> castSpringPageToFrameworkPageDTO(Page<T> page){
+
+    private PageDTO<List<T>> castSpringPageToFrameworkPageDTO(Page<T> page) {
         return PageDTO.<List<T>>builder()
                 .pageSize(page.getSize())
                 .object(page.getContent())
