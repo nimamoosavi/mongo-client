@@ -1,9 +1,9 @@
-package com.nicico.mongoclient.repository;
+package com.webold.mongoclient.repository;
 
 import com.mongodb.client.model.Filters;
-import com.nicico.cost.crud.repository.GeneralRepository;
-import com.nicico.cost.framework.domain.dto.PageDTO;
-import com.nicico.cost.framework.packages.crud.view.Query;
+import com.webold.crud.repository.GeneralRepository;
+import com.webold.framework.domain.dto.PageDTO;
+import com.webold.framework.packages.crud.view.Query;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;

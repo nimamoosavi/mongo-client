@@ -1,4 +1,4 @@
-package com.nicico.mongoclient.sequence;
+package com.webold.mongoclient.sequence;
 
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;

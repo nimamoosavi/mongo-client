@@ -1,4 +1,4 @@
-package com.nicico.mongoclient.mapper;
+package com.webold.mongoclient.mapper;
 
 import org.bson.Document;
 

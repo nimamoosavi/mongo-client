@@ -1,7 +1,7 @@
-package com.nicico.mongoclient.repository;
+package com.webold.mongoclient.repository;
 
 
-import com.nicico.cost.crud.repository.GeneralRepository;
+import com.webold.crud.repository.GeneralRepository;
 import org.bson.types.ObjectId;
 
 public interface MongoRepositoryService<T , I extends ObjectId> extends GeneralRepository<T,I> {

@@ -1,4 +1,4 @@
-package com.nicico.mongoclient.sequence;
+package com.webold.mongoclient.sequence;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

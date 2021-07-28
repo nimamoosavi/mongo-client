@@ -1,9 +1,9 @@
-package com.nicico.mongoclient.mapper;
+package com.webold.mongoclient.mapper;
 
-import com.nicico.mongoclient.annotaion.FieldName;
-import com.nicico.mongoclient.annotaion.MoveField;
-import com.nicico.mongoclient.annotaion.Sequence;
-import com.nicico.mongoclient.sequence.SequenceGeneratorService;
+import com.webold.mongoclient.annotaion.FieldName;
+import com.webold.mongoclient.annotaion.MoveField;
+import com.webold.mongoclient.annotaion.Sequence;
+import com.webold.mongoclient.sequence.SequenceGeneratorService;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
