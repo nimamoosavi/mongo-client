@@ -1,4 +1,4 @@
-package com.webold.mongoclient.sequence;
+package app.ladderproject.mongoclient.sequence;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

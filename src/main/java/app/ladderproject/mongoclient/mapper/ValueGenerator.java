@@ -1,4 +1,4 @@
-package com.webold.mongoclient.mapper;
+package app.ladderproject.mongoclient.mapper;
 
 import org.bson.Document;
 

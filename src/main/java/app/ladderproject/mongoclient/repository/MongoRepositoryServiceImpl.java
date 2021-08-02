@@ -1,7 +1,7 @@
-package com.webold.mongoclient.repository;
+package app.ladderproject.mongoclient.repository;
 
 import com.mongodb.client.model.Filters;
-import com.webold.crud.repository.GeneralRepository;
+import app.ladderproject.crud.repository.GeneralRepository;
 import com.webold.framework.domain.dto.PageDTO;
 import com.webold.framework.packages.crud.view.Query;
 import org.bson.Document;

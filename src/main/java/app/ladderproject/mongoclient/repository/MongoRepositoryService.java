@@ -1,7 +1,7 @@
-package com.webold.mongoclient.repository;
+package app.ladderproject.mongoclient.repository;
 
 
-import com.webold.crud.repository.GeneralRepository;
+import app.ladderproject.crud.repository.GeneralRepository;
 import org.bson.types.ObjectId;
 
 public interface MongoRepositoryService<T , I extends ObjectId> extends GeneralRepository<T,I> {

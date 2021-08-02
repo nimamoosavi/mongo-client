@@ -1,4 +1,4 @@
-package com.webold.mongoclient.annotaion;
+package app.ladderproject.mongoclient.annotaion;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface FieldName {
-    String name() default "";
+public @interface MoveField {
+    String[] source() default "";
+    String[] target() default "";
 }

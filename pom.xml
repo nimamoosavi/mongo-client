@@ -8,7 +8,7 @@
         <version>2.3.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.webold</groupId>
+    <groupId>app.ladderproject</groupId>
     <artifactId>mongo-client</artifactId>
     <version>1.0.1-Released</version>
     <name>mongo-client</name>
@@ -16,32 +16,32 @@
     <properties>
         <java.version>11</java.version>
     </properties>
-      <dependencies>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-mongodb</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-          <dependency>
-              <groupId>com.webold</groupId>
-              <artifactId>crud</artifactId>
-              <version>1.0.1-Released</version>
-          </dependency>
-  </dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>app.ladderproject</groupId>
+            <artifactId>crud</artifactId>
+            <version>1.0.1-Released</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
@@ -80,22 +80,4 @@
             </plugin>
         </plugins>
     </build>
-
-        <distributionManagement>
-            <snapshotRepository>
-                <id>nexus-snapshots</id>
-                <url>http://devops01.icico.net.ir/nexus/repository/maven-snapshots/</url>
-            </snapshotRepository>
-            <repository>
-                <id>nexus-releases</id>
-                <url>http://devops01.icico.net.ir/nexus/repository/maven-releases/</url>
-            </repository>
-        </distributionManagement>
-        <repositories>
-            <repository>
-                <id>nexus-public</id>
-                <url>http://devops01.icico.net.ir/nexus/repository/maven-public/</url>
-            </repository>
-    </repositories>
-
 </project>

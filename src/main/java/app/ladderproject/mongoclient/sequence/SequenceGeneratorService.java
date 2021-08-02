@@ -1,4 +1,4 @@
-package com.webold.mongoclient.sequence;
+package app.ladderproject.mongoclient.sequence;
 
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
