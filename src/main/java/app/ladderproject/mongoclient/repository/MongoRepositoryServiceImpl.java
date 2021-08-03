@@ -1,9 +1,9 @@
 package app.ladderproject.mongoclient.repository;
 
+import app.ladderproject.core.domain.dto.PageDTO;
+import app.ladderproject.core.packages.crud.view.Query;
 import com.mongodb.client.model.Filters;
 import app.ladderproject.crud.repository.GeneralRepository;
-import com.webold.framework.domain.dto.PageDTO;
-import com.webold.framework.packages.crud.view.Query;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
