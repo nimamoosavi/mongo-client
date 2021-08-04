@@ -22,7 +22,7 @@ import java.util.Optional;
  * Mongo Repo is integrator of {@link org.springframework.data.mongodb.repository.MongoRepository} and {@link GeneralRepository}
  *
  * @param <T> is the entity class that you must Extended to BaseEntity
- * @param <I> is the type of data base Identity class such as Long,String, ...
+ * @param <I> is the type of database Identity class such as Long,String, ...
  * @author Hossein Mahdevar
  * @version 1.0.0
  */
