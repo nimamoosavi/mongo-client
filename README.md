@@ -4,7 +4,9 @@
 
 Mongo Client is part of [Core](https://github.com/nimamoosavi/core/wiki) , Use Spring
 
-[[/images/Diagram.png | "Core Diagram"]]
+
+![mongo-client Diagram](https://github.com/nimamoosavi/mongo-client/wiki/images/Diagram.png)
+
 
 MongoTemplate to provide below feature
 > - Implementation of GeneralRepository for [CRUD Project](https://github.com/nimamoosavi/crud/wiki)
