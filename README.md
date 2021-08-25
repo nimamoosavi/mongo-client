@@ -1,12 +1,17 @@
 # Mongo-Client
 
-#### Mongo Client
-
-Mongo Client is part of [Core](https://github.com/nimamoosavi/core/wiki) , Use Spring
+this project use for connect to mongodb service and implement the repository layer in crud project
 
 
 ![mongo-client Diagram](https://github.com/nimamoosavi/mongo-client/wiki/images/Diagram.png)
 
+#### Requirement
+
+The library works with Java 8+, ladder Core 1.0.1+ and implemented Crud Project
+
+## [Core](https://github.com/nimamoosavi/core/wiki)
+
+## [Crud](https://github.com/nimamoosavi/crud/wiki)
 
 MongoTemplate to provide below feature
 > - Implementation of GeneralRepository for [CRUD Project](https://github.com/nimamoosavi/crud/wiki)
@@ -15,8 +20,6 @@ MongoTemplate to provide below feature
 > - relocate nested field of a map object dynamically even in runtime which means before save and after fetch
 > - Change field name by content of desired variable
 
-## Requirements
-The library works with Java 8+, ladder framework 1.0.1+
 
 ## Hello World
 
